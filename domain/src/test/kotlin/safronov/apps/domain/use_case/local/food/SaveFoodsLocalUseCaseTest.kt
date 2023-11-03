@@ -1,5 +1,6 @@
 package safronov.apps.domain.use_case.local.food
 
+import kotlinx.coroutines.runBlocking
 import org.junit.Assert.*
 
 import org.junit.Before
@@ -24,7 +25,7 @@ class SaveFoodsLocalUseCaseTest {
     }
 
     @Test
-    fun test_execute() {
+    fun test_execute() = runBlocking {
         val foods = fakeFoodRepositoryLocal2.dataToReturn
         val result = saveFoodsLocalUseCase.execute(foods)
         assertEquals(true, foods == result)
@@ -32,7 +33,8 @@ class SaveFoodsLocalUseCaseTest {
     }
 
     @Test(expected = DomainException::class)
-    fun test_execute_expectedDomainException() {
+    fun test_execute_expectedDomainException(): Unit = runBlocking {
+        val foods = fakeFoodRepositoryLocal2.dataToReturn
         fakeFoodRepositoryLocal2.isNeedToThrowException = true
         saveFoodsLocalUseCase.execute(foods)
     }
