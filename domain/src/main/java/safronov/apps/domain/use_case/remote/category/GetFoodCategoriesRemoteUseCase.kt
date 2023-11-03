@@ -1,4 +1,4 @@
-package safronov.apps.domain.use_case
+package safronov.apps.domain.use_case.remote.category
 
 import safronov.apps.domain.model.food_category.FoodCategory
 import safronov.apps.domain.repository.remote.FoodCategoryRepositoryRemote
