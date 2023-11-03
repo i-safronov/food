@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.fragment.all_content.main.main_content.menu.FragmentMenu">
+    tools:context=".ui.fragment.all_content.main.main_content.menu.FragmentMenu"
+    android:orientation="vertical">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="menu"
-        android:textSize="92sp" />
+    <include android:id="@+id/included_fragment_menu_tool_bar" layout="@layout/fragment_menu_tool_bar" />
 
-</FrameLayout>
+</LinearLayout>
