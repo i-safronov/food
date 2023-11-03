@@ -3,11 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_content_graph"
-    app:startDestination="@id/fragmentMenu">
-
-    <fragment
-        android:id="@+id/fragmentMenu"
-        android:name="safronov.apps.food.ui.fragment.all_content.main.main_content.menu.FragmentMenu"
-        android:label="fragment_menu"
-        tools:layout="@layout/fragment_menu" />
+    app:startDestination="@id/menu_graph">
+    <include app:graph="@navigation/menu_graph" />
 </navigation>

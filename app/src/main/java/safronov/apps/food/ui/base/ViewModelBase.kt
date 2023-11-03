@@ -2,6 +2,7 @@ package safronov.apps.food.ui.base
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import safronov.apps.food.ui.base.coroutines.DispatchersList
