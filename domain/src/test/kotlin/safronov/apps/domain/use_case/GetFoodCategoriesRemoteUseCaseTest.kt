@@ -1,5 +1,6 @@
 package safronov.apps.domain.use_case
 
+import kotlinx.coroutines.runBlocking
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
@@ -22,12 +23,12 @@ class GetFoodCategoriesRemoteUseCaseTest {
     }
 
     @Test
-    fun test_execute() {
+    fun test_execute() = runBlocking {
         assertEquals(true, getFoodCategoriesRemoteUseCase.execute() == fakeFoodCategoryRepositoryRemote.dataToReturn)
     }
 
     @Test(expected = DomainException::class)
-    fun test_execute_expectedDomainException() {
+    fun test_execute_expectedDomainException(): Unit = runBlocking {
         fakeFoodCategoryRepositoryRemote.isNeedToThrowException = true
         getFoodCategoriesRemoteUseCase.execute()
     }
