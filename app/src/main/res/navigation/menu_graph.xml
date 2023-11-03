@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/fragmentMenu"
-        android:name="safronov.apps.food.ui.fragment.all_content.main.main_content.menu.FragmentMenu"
+        android:name="safronov.apps.food.ui.fragment.main.main_content.menu.FragmentMenu"
         android:label="fragment_menu"
         tools:layout="@layout/fragment_menu" />
 </navigation>

@@ -6,7 +6,7 @@
     app:startDestination="@id/fragmentMain">
     <fragment
         android:id="@+id/fragmentMain"
-        android:name="safronov.apps.food.ui.fragment.all_content.main.FragmentMain"
+        android:name="safronov.apps.food.ui.fragment.main.FragmentMain"
         android:label="fragment_main"
         tools:layout="@layout/fragment_main" />
 </navigation>
