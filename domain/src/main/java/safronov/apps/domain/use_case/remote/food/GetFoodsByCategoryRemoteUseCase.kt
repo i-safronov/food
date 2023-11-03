@@ -22,8 +22,7 @@ class GetFoodsByCategoryRemoteUseCase(
      *
      * Notes: if some foods are updated/added on the server and previous products with exactly
      * the same [category] are already stored in the database, then the data will NOT be updated
-     * and the previous outdated data will remain in the database. This problem is test related
-     * to the API that this application uses.
+     * and the previous outdated data will remain in the database.
      *
      * */
     suspend fun execute(category: FoodCategoryItem): Food {
