@@ -40,12 +40,10 @@ private class FakeFoodCategoryRepositoryLocal: FoodCategoryRepositoryLocal.Getti
 
     var isNeedToThrowException = false
     val dataToReturn = listOf(
-        FoodCategory(listOf(
-            FoodCategoryItem(idCategory = "sdf", strCategory = "asdfa", strCategoryDescription = "s", strCategoryThumb = "asdfa")
-        ))
+        FoodCategoryItem(idCategory = "sdf", strCategory = "asdfa", strCategoryDescription = "s", strCategoryThumb = "asdfa")
     )
 
-    override suspend fun getFoodCategories(): List<FoodCategory> {
+    override suspend fun getFoodCategories(): List<FoodCategoryItem> {
         if (isNeedToThrowException) throw DomainException("domain exception")
         return dataToReturn
     }
