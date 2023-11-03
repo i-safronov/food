@@ -14,6 +14,6 @@
     <color name="not_accent_text_color_in_gray_back">#C3C4C9</color>
     <color name="hint">#AAAAAD</color>
     <color name="accent_color">#FD3A69</color>
-    
+    <color name="back">#FFFFFF</color>
 
 </resources>
