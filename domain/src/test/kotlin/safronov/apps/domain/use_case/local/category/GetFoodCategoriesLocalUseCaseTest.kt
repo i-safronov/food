@@ -1,4 +1,4 @@
-package safronov.apps.domain.use_case.local
+package safronov.apps.domain.use_case.local.category
 
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.*
@@ -6,7 +6,6 @@ import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 import safronov.apps.domain.exception.DomainException
-import safronov.apps.domain.model.food_category.FoodCategory
 import safronov.apps.domain.model.food_category.FoodCategoryItem
 import safronov.apps.domain.repository.local.FoodCategoryRepositoryLocal
 
