@@ -29,7 +29,7 @@ class GetAllFoodsRemoteUseCaseTest {
         assertEquals(true, fakeFoodRepositoryRemote.dataToReturn == getAllFoodsRemoteUseCase.execute())
     }
 
-    @Test
+    @Test(expected = DomainException::class)
     fun test_execute_expectedDomainException(): Unit = runBlocking {
         fakeFoodRepositoryRemote.isNeedToThrowException = true
         getAllFoodsRemoteUseCase.execute()
