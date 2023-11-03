@@ -3,20 +3,30 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.fragment.all_content.main.main_content.menu.FragmentMenu"
     android:orientation="vertical">
 
     <include android:id="@+id/included_fragment_menu_tool_bar" layout="@layout/fragment_menu_tool_bar" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rcv_banner_items"
+    <com.google.android.material.appbar.CollapsingToolbarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:itemCount="1"
-        tools:listitem="@layout/rcv_banner_item"
-        android:clipToPadding="false"
-        android:paddingStart="@dimen/padding_small"
-        android:paddingEnd="@dimen/padding_small"/>
+        android:fitsSystemWindows="true"
+        app:contentScrim="?attr/colorPrimary"
+        app:layout_scrollFlags="scroll|snap|exitUntilCollapsed">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rcv_banner_items"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:itemCount="1"
+            tools:listitem="@layout/rcv_banner_item"
+            android:clipToPadding="false"
+            android:paddingStart="@dimen/padding_small"
+            android:paddingEnd="@dimen/padding_small"/>
+
+    </com.google.android.material.appbar.CollapsingToolbarLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcv_categories"
