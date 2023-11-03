@@ -15,5 +15,6 @@
     <color name="hint">#AAAAAD</color>
     <color name="accent_color">#FD3A69</color>
     <color name="back">#FFFFFF</color>
+    <color name="light_ripple">#66CDCDCD</color>
 
 </resources>

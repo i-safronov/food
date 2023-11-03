@@ -21,4 +21,8 @@
         <item name="android:textSize">@dimen/title_size</item>
     </style>
 
+    <style name="banner_img_shape">
+        <item name="cornerSize">@dimen/radius</item>
+    </style>
+
 </resources>

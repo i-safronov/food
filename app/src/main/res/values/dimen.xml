@@ -5,5 +5,8 @@
     <dimen name="padding">8sp</dimen>
     <dimen name="padding_big">16sp</dimen>
     <dimen name="margin">8sp</dimen>
+    <dimen name="radius">8sp</dimen>
+    <dimen name="banner_img_width">260sp</dimen>
+    <dimen name="banner_img_height">110sp</dimen>
 
 </resources>
