@@ -26,8 +26,14 @@
         <item name="android:textSize">@dimen/text_size</item>
     </style>
 
-    <style name="banner_img_shape">
+    <style name="img_shape">
         <item name="cornerSize">@dimen/radius</item>
+    </style>
+
+    <style name="button" parent="Widget.AppCompat.Button">
+        <item name="android:background">@drawable/accent_button_with_stroke</item>
+        <item name="android:textColor">@color/accent_color</item>
+        <item name="android:textAllCaps">false</item>
     </style>
 
 </resources>

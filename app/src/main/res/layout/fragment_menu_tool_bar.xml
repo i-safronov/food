@@ -15,6 +15,7 @@
         android:drawableEnd="@drawable/ic_arrow_bottom"
         android:text="@string/Moscow"
         android:layout_marginEnd="@dimen/margin"
+        android:drawablePadding="@dimen/padding"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/barcode"
         app:layout_constraintHorizontal_bias="0.0"
