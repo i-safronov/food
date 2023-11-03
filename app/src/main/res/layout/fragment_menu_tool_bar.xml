@@ -24,8 +24,8 @@
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/barcode"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
         android:layout_gravity="end"
         android:src="@drawable/ic_barcode"
         app:layout_constraintEnd_toEndOf="parent"
