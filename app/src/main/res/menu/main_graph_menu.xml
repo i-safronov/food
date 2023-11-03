@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/menu_graph"
+        android:title="@string/menu"
+        android:icon="@drawable/ic_main_page"
+        android:orderInCategory="0" />
+
+    <item
+        android:id="@+id/profile_graph"
+        android:title="@string/profile"
+        android:icon="@drawable/ic_profile"
+        android:orderInCategory="1" />
+
+    <item
+        android:id="@+id/basket_graph"
+        android:title="@string/basket"
+        android:icon="@drawable/ic_basket"
+        android:orderInCategory="2" />
+
+</menu>
