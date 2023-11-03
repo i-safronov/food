@@ -9,6 +9,7 @@ import safronov.apps.domain.exception.DomainException
 import safronov.apps.domain.model.food.Food
 import safronov.apps.domain.model.food.FoodItem
 import safronov.apps.domain.model.food_category.FoodCategory
+import safronov.apps.domain.model.food_category.FoodCategoryItem
 import safronov.apps.domain.repository.remote.FoodRepositoryRemote
 import java.lang.IllegalStateException
 
@@ -27,13 +28,22 @@ class GetFoodsByCategoryRemoteUseCaseTest {
 
     @Test
     fun test_execute() = runBlocking {
-        assertEquals(true, fakeFoodRepositoryRemote1.dataToReturn == getFoodsByCategoryRemoteUseCase.execute())
+        val foodCategory = FoodCategoryItem(
+            idCategory = "asdf", strCategory = "fasdf", strCategoryThumb = "fasdfa",
+            strCategoryDescription = "asdlfjk"
+        )
+        assertEquals(true, fakeFoodRepositoryRemote1.dataToReturn == getFoodsByCategoryRemoteUseCase.execute(foodCategory))
+        assertEquals(true, fakeFoodRepositoryRemote1.categoryRequest == foodCategory)
     }
 
-    @Test
+    @Test(expected = DomainException::class)
     fun test_execute_expectedDomainException(): Unit = runBlocking {
+        val foodCategory = FoodCategoryItem(
+            idCategory = "asdf", strCategory = "fasdf", strCategoryThumb = "fasdfa",
+            strCategoryDescription = "asdlfjk"
+        )
         fakeFoodRepositoryRemote1.isNeedToThrowException = true
-        getFoodsByCategoryRemoteUseCase.execute()
+        getFoodsByCategoryRemoteUseCase.execute(foodCategory)
     }
 
 }
@@ -41,7 +51,7 @@ class GetFoodsByCategoryRemoteUseCaseTest {
 private class FakeFoodRepositoryRemote1: FoodRepositoryRemote {
 
     var isNeedToThrowException = false
-    var categoryRequest: FoodCategory? = null
+    var categoryRequest: FoodCategoryItem? = null
     val dataToReturn = listOf(
         Food(foodItems = listOf(
             FoodItem(
@@ -54,7 +64,7 @@ private class FakeFoodRepositoryRemote1: FoodRepositoryRemote {
         throw IllegalStateException("don't use this method -_-")
     }
 
-    override suspend fun getFoodsByCategory(category: FoodCategory): List<Food> {
+    override suspend fun getFoodsByCategory(category: FoodCategoryItem): List<Food> {
         if (isNeedToThrowException) throw DomainException("some exception")
         categoryRequest = category
         return dataToReturn
