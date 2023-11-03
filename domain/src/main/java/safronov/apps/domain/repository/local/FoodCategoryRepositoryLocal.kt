@@ -1,6 +1,5 @@
 package safronov.apps.domain.repository.local
 
-import safronov.apps.domain.model.food_category.FoodCategory
 import safronov.apps.domain.model.food_category.FoodCategoryItem
 
 interface FoodCategoryRepositoryLocal {
@@ -10,7 +9,7 @@ interface FoodCategoryRepositoryLocal {
     }
 
     interface SavingFoodCategoryRepositoryLocal {
-        suspend fun saveFoodCategories(list: List<FoodCategory>): List<FoodCategory>
+        suspend fun saveFoodCategories(list: List<FoodCategoryItem>): List<FoodCategoryItem>
     }
 
     interface MutableFoodCategoryRepositoryLocal: GettingFoodCategoryRepositoryLocal, SavingFoodCategoryRepositoryLocal
