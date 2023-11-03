@@ -27,17 +27,21 @@ class GetFoodsByCategoryLocalUseCaseTest {
 
     @Test
     fun test_execute() = runBlocking {
-        val taskCategory = fakeFoodRepositoryLocal1.categoryRequest
-        val result = getFoodsByCategoryLocalUseCase.execute(taskCategory)
+        val foodCategory = FoodCategoryItem(
+            idCategory = "asdf", strCategory = "str", strCategoryDescription = "fasd", strCategoryThumb = "fasdf"
+        )
+        val result = getFoodsByCategoryLocalUseCase.execute(foodCategory)
         assertEquals(true, fakeFoodRepositoryLocal1.dataToReturn == result)
-        assertEquals(true, taskCategory == fakeFoodRepositoryLocal1.categoryRequest)
+        assertEquals(true, foodCategory == fakeFoodRepositoryLocal1.categoryRequest)
     }
 
     @Test(expected = DomainException::class)
     fun test_execute_expectedDomainException(): Unit = runBlocking {
         fakeFoodRepositoryLocal1.isNeedToThrowException = true
-        val taskCategory = fakeFoodRepositoryLocal1.categoryRequest
-        getFoodsByCategoryLocalUseCase.execute(taskCategory)
+        val foodCategory = FoodCategoryItem(
+            idCategory = "asdf", strCategory = "str", strCategoryDescription = "fasd", strCategoryThumb = "fasdf"
+        )
+        getFoodsByCategoryLocalUseCase.execute(foodCategory)
     }
 
 }
