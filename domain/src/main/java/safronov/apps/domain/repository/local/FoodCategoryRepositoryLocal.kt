@@ -12,4 +12,6 @@ interface FoodCategoryRepositoryLocal {
         suspend fun saveFoodCategories(list: List<FoodCategory>): List<FoodCategory>
     }
 
+    interface MutableFoodCategoryRepositoryLocal: GettingFoodCategoryRepositoryLocal, SavingFoodCategoryRepositoryLocal
+
 }
