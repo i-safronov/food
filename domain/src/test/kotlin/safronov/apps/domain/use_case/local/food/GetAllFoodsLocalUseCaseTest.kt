@@ -9,6 +9,7 @@ import safronov.apps.domain.exception.DomainException
 import safronov.apps.domain.model.food.Food
 import safronov.apps.domain.model.food.FoodItem
 import safronov.apps.domain.model.food_category.FoodCategory
+import safronov.apps.domain.model.food_category.FoodCategoryItem
 import safronov.apps.domain.repository.local.FoodRepositoryLocal
 import java.lang.IllegalStateException
 
@@ -52,7 +53,7 @@ private class FakeFoodRepositoryLocal: FoodRepositoryLocal.GettingFoodRepository
         return dataToReturn
     }
 
-    override suspend fun getFoodsByCategory(category: FoodCategory): List<FoodItem> {
+    override suspend fun getFoodsByCategory(category: FoodCategoryItem): List<FoodItem> {
         throw IllegalStateException("don't use this method -.- ")
     }
 
