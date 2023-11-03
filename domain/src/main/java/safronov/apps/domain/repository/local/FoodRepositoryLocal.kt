@@ -1,7 +1,6 @@
 package safronov.apps.domain.repository.local
 
 import safronov.apps.domain.model.food.FoodItem
-import safronov.apps.domain.model.food_category.FoodCategory
 import safronov.apps.domain.model.food_category.FoodCategoryItem
 
 interface FoodRepositoryLocal {
