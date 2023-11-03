@@ -8,5 +8,7 @@
     <dimen name="radius">8sp</dimen>
     <dimen name="banner_img_width">260sp</dimen>
     <dimen name="banner_img_height">110sp</dimen>
+    <dimen name="margin_small">4dp</dimen>
+    <dimen name="padding_small">4dp</dimen>
 
 </resources>

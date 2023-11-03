@@ -6,7 +6,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:background="@drawable/back_shape_with_ripple"
-    android:layout_margin="@dimen/margin">
+    android:layout_marginTop="@dimen/margin"
+    android:layout_marginBottom="@dimen/margin"
+    android:layout_marginStart="@dimen/margin_small"
+    android:layout_marginEnd="@dimen/margin_small">
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/barnner_img"
