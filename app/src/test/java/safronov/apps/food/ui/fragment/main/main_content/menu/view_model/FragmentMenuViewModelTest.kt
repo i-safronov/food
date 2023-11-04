@@ -102,6 +102,7 @@ class FragmentMenuViewModelTest {
 
         assertEquals(true, fakeFoodCategoryRepositoryLocalSaving.countOfRequest == 1)
         assertEquals(true, fakeFoodRepositoryLocalSaving.countOfRequest == 1)
+        assertEquals(true, fragmentMenuViewModel.getCurrentFoodCategory().value == remoteFoodCategories.first())
     }
 
     @Test
@@ -201,7 +202,6 @@ private class FakeFoodCategoryRepositoryRemoteGetting: FoodCategoryRepositoryRem
         FoodCategoryItem(idCategory = "sdf", strCategory = "asdfa", strCategoryDescription = "s", strCategoryThumb = "asdfa")
     ))
     var isNeedToThrowException = false
-    var isNeedToLongRequest = false
 
     override suspend fun getFoodCategories(): FoodCategory {
         if (isNeedToThrowException) throw DomainException("some exception")

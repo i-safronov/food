@@ -13,11 +13,12 @@ import safronov.apps.domain.use_case.remote.category.GetFoodCategoriesRemoteUseC
 import safronov.apps.domain.use_case.remote.food.GetFoodsByCategoryRemoteUseCase
 import safronov.apps.food.ui.base.ViewModelBase
 import safronov.apps.food.ui.base.coroutines.DispatchersList
-import safronov.apps.food.ui.exception.UiException
 import safronov.apps.food.ui.system.network.ConnectivityObserver
+import java.lang.Exception
+import java.lang.RuntimeException
 
 class FragmentMenuViewModel(
-    private val dispatchersList: DispatchersList,
+    dispatchersList: DispatchersList,
     private val connectivityObserver: ConnectivityObserver,
     private val getFoodCategoriesRemoteUseCase: GetFoodCategoriesRemoteUseCase,
     private val getFoodsByCategoryRemoteUseCase: GetFoodsByCategoryRemoteUseCase,
@@ -27,11 +28,8 @@ class FragmentMenuViewModel(
 
     private val foodCategories = MutableStateFlow<List<FoodCategoryItem>?>(null)
     private val foods = MutableStateFlow<List<FoodItem>?>(null)
-    private val isException = MutableStateFlow<UiException?>(null)
+    private val isException = MutableStateFlow<Exception?>(null)
     private val currentFoodCategory = MutableStateFlow<FoodCategoryItem?>(null)
-
-    private val networkJobs = mutableListOf<Job>()
-    private val localJobs = mutableListOf<Job>()
 
     fun getFoodCategories(): StateFlow<List<FoodCategoryItem>?> {
         return foodCategories
@@ -42,50 +40,43 @@ class FragmentMenuViewModel(
     }
 
     fun getCurrentFoodCategory(): StateFlow<FoodCategoryItem?> = currentFoodCategory
-    fun getIsException(): StateFlow<UiException?> = isException
+    fun getIsException(): StateFlow<Exception?> = isException
 
     fun loadFoodsCategoriesAndFoods() {
         asyncWork(
             prepareUI = {},
             doWork = {
-                if (connectivityObserver.isAccessToNetwork()) {
-                    loadFoodsCategoriesAndFoodsFromNetwork()
-                } else {
-                    loadFoodsCategoriesAndFoodsFromLocalDatabase()
+                try {
+                    if (connectivityObserver.isAccessToNetwork()) {
+                        loadFoodsCategoriesAndFoodsFromNetwork()
+                    } else {
+                        loadFoodsCategoriesAndFoodsFromLocalDatabase()
+                    }
+                } catch (e: RuntimeException) {
                 }
             }, showUI = {  }, handleException = {
-                setExceptionToUi(it as UiException)
             }
         )
     }
 
-    private fun loadFoodsCategoriesAndFoodsFromNetwork(): Job = viewModelScope.launch(dispatchersList.io()) {
+    private suspend fun loadFoodsCategoriesAndFoodsFromNetwork() {
         foodCategories.value = getFoodCategoriesRemoteUseCase.execute().categories
         if (currentFoodCategory.value == null) {
             currentFoodCategory.value = foodCategories.value?.first()
         }
-        if (currentFoodCategory.value == null) {
-            setExceptionToUi(UiException("current food category is null"))
-        } else {
-            foods.value = getFoodsByCategoryRemoteUseCase.execute(currentFoodCategory.value!!).foodItems
+        currentFoodCategory.value?.let {
+            foods.value = getFoodsByCategoryRemoteUseCase.execute(it).foodItems
         }
     }
 
-    private fun loadFoodsCategoriesAndFoodsFromLocalDatabase(): Job = viewModelScope.launch(dispatchersList.io()) {
+    private suspend fun loadFoodsCategoriesAndFoodsFromLocalDatabase() {
         foodCategories.value = getFoodCategoriesLocalUseCase.execute()
         if (currentFoodCategory.value == null) {
             currentFoodCategory.value = foodCategories.value?.first()
         }
-        if (currentFoodCategory.value == null) {
-            setExceptionToUi(UiException("current food category is null"))
-        } else {
-            foods.value = getFoodsByCategoryLocalUseCase.execute(currentFoodCategory.value!!)
+        currentFoodCategory.value?.let {
+            foods.value = getFoodsByCategoryLocalUseCase.execute(it)
         }
-    }
-
-    private fun setExceptionToUi(uiException: UiException?) {
-        isException.value = uiException
-        isException.value = null
     }
 
 }
