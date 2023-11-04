@@ -7,6 +7,7 @@ import org.junit.Before
 import org.junit.Test
 import safronov.apps.data.data_source.local.core.dao.food.FoodDao
 import safronov.apps.data.data_source.local.model.FoodItemEntity
+import safronov.apps.data.repository_impl.local.FoodRepositoryLocalImpl
 import safronov.apps.domain.model.food_category.FoodCategoryItem
 import java.lang.IllegalStateException
 

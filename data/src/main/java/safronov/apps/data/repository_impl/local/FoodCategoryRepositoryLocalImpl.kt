@@ -1,4 +1,4 @@
-package safronov.apps.data.repository_impl
+package safronov.apps.data.repository_impl.local
 
 import safronov.apps.data.data_source.local.core.dao.food_category.FoodCategoryDao
 import safronov.apps.data.data_source.local.model.FoodCategoryItemEntity
