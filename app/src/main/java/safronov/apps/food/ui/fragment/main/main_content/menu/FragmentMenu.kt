@@ -85,6 +85,7 @@ class FragmentMenu : FragmentBase(), RcvFoodCategoriesInt {
         fragmentMenuViewModel?.getCurrentFoodCategory()?.collect {
             it?.let {
                 rcvFoodCategories.saveCurrentFoodCategory(it)
+                fragmentMenuViewModel?.loadFoodsByFoodCategory(it)
             }
         }
     }

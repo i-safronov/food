@@ -51,13 +51,28 @@ class FragmentMenuViewModel(
                 }
                 if (connectivityObserver.isAccessToNetwork()) {
                     loadFoodsCategoriesAndFoodsFromNetwork()
-                    Log.d("sfrLog", "isNetwork: ${connectivityObserver.isAccessToNetwork()}, items: ${foods.value}")
                 } else {
                     loadFoodsCategoriesAndFoodsFromLocalDatabase()
                 }
             }, showUI = {  }, handleException = {
                 isException.value = it
-                Log.d("sfrLog", "exception: ${it.message}")
+            }
+        )
+    }
+
+    fun loadFoodsByFoodCategory(foodCategory: FoodCategoryItem) {
+        asyncWork(
+            prepareUI = {},
+            doWork = {
+                if (connectivityObserver.isAccessToNetwork()) {
+                    foods.value = getFoodsByCategoryRemoteUseCase.execute(foodCategory).foodItems
+                } else {
+                    foods.value = getFoodsByCategoryLocalUseCase.execute(foodCategory)
+                }
+            }, showUI = {
+
+            }, handleException = {
+                isException.value = it
             }
         )
     }
