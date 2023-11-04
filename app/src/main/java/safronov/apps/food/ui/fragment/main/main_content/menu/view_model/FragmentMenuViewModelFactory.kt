@@ -7,6 +7,7 @@ import safronov.apps.domain.use_case.local.food.GetFoodsByCategoryLocalUseCase
 import safronov.apps.domain.use_case.remote.category.GetFoodCategoriesRemoteUseCase
 import safronov.apps.domain.use_case.remote.food.GetFoodsByCategoryRemoteUseCase
 import safronov.apps.food.ui.base.coroutines.DispatchersList
+import safronov.apps.food.ui.fragment.main.main_content.menu.banner.BannerService
 import safronov.apps.food.ui.system.network.ConnectivityObserver
 
 class FragmentMenuViewModelFactory(
@@ -15,7 +16,8 @@ class FragmentMenuViewModelFactory(
     private val getFoodCategoriesRemoteUseCase: GetFoodCategoriesRemoteUseCase,
     private val getFoodsByCategoryRemoteUseCase: GetFoodsByCategoryRemoteUseCase,
     private val getFoodCategoriesLocalUseCase: GetFoodCategoriesLocalUseCase,
-    private val getFoodsByCategoryLocalUseCase: GetFoodsByCategoryLocalUseCase
+    private val getFoodsByCategoryLocalUseCase: GetFoodsByCategoryLocalUseCase,
+    private val bannerService: BannerService
 ): ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
@@ -25,7 +27,8 @@ class FragmentMenuViewModelFactory(
             getFoodCategoriesRemoteUseCase,
             getFoodsByCategoryRemoteUseCase,
             getFoodCategoriesLocalUseCase,
-            getFoodsByCategoryLocalUseCase
+            getFoodsByCategoryLocalUseCase,
+            bannerService
         ) as T
     }
 

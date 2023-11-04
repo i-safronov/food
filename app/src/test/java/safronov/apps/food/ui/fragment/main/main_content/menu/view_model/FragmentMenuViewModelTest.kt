@@ -1,10 +1,7 @@
 package safronov.apps.food.ui.fragment.main.main_content.menu.view_model
 
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import org.junit.Assert.*
@@ -93,7 +90,7 @@ class FragmentMenuViewModelTest {
         fakeFoodCategoryRepositoryLocalGetting.dataToReturn = emptyList()
         val remoteFoodCategories = fakeFoodCategoryRepositoryRemoteGetting.dataToReturn.categories
         val remoteFoods = fakeFoodRepositoryRemoteGetting.dataToReturn.foodItems
-        fragmentMenuViewModel.loadFoodsCategoriesAndFoods()
+        fragmentMenuViewModel.loadPage()
         val currentFoodCategories = fragmentMenuViewModel.getFoodCategories().first()
         val currentFoods = fragmentMenuViewModel.getFoods().first()
 
@@ -110,7 +107,7 @@ class FragmentMenuViewModelTest {
         connectivityObserver.isNetworkAvailable = false
         val localFoodCategories = fakeFoodCategoryRepositoryLocalGetting.dataToReturn
         val localFoods = fakeFoodRepositoryLocalGetting.dataToReturn
-        fragmentMenuViewModel.loadFoodsCategoriesAndFoods()
+        fragmentMenuViewModel.loadPage()
         val currentFoodCategories = fragmentMenuViewModel.getFoodCategories().first()
         val currentFoods = fragmentMenuViewModel.getFoods().first()
 

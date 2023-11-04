@@ -8,6 +8,7 @@ import safronov.apps.domain.use_case.local.food.GetFoodsByCategoryLocalUseCase
 import safronov.apps.domain.use_case.remote.category.GetFoodCategoriesRemoteUseCase
 import safronov.apps.domain.use_case.remote.food.GetFoodsByCategoryRemoteUseCase
 import safronov.apps.food.ui.base.coroutines.DispatchersList
+import safronov.apps.food.ui.fragment.main.main_content.menu.banner.BannerService
 import safronov.apps.food.ui.fragment.main.main_content.menu.view_model.FragmentMenuViewModelFactory
 import safronov.apps.food.ui.system.network.ConnectivityObserver
 import safronov.apps.food.ui.system.network.NetworkConnectivityObserver
@@ -20,6 +21,13 @@ class AppModule(
     @Provides
     fun provideContext(): Context {
         return context
+    }
+
+    @Provides
+    fun provideBannerService(
+        context: Context
+    ): BannerService {
+        return BannerService.Base(context)
     }
 
     @Provides
@@ -39,11 +47,13 @@ class AppModule(
          getFoodCategoriesRemoteUseCase: GetFoodCategoriesRemoteUseCase,
          getFoodsByCategoryRemoteUseCase: GetFoodsByCategoryRemoteUseCase,
          getFoodCategoriesLocalUseCase: GetFoodCategoriesLocalUseCase,
-         getFoodsByCategoryLocalUseCase: GetFoodsByCategoryLocalUseCase
+         getFoodsByCategoryLocalUseCase: GetFoodsByCategoryLocalUseCase,
+         bannerService: BannerService
     ): FragmentMenuViewModelFactory {
         return FragmentMenuViewModelFactory(
             dispatchersList, connectivityObserver, getFoodCategoriesRemoteUseCase,
-            getFoodsByCategoryRemoteUseCase, getFoodCategoriesLocalUseCase, getFoodsByCategoryLocalUseCase
+            getFoodsByCategoryRemoteUseCase, getFoodCategoriesLocalUseCase, getFoodsByCategoryLocalUseCase,
+            bannerService
         )
     }
 

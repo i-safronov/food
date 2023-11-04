@@ -10,6 +10,8 @@ import safronov.apps.domain.use_case.remote.category.GetFoodCategoriesRemoteUseC
 import safronov.apps.domain.use_case.remote.food.GetFoodsByCategoryRemoteUseCase
 import safronov.apps.food.ui.base.ViewModelBase
 import safronov.apps.food.ui.base.coroutines.DispatchersList
+import safronov.apps.food.ui.fragment.main.main_content.menu.banner.Banner
+import safronov.apps.food.ui.fragment.main.main_content.menu.banner.BannerService
 import safronov.apps.food.ui.system.network.ConnectivityObserver
 import java.lang.Exception
 
@@ -19,27 +21,33 @@ class FragmentMenuViewModel(
     private val getFoodCategoriesRemoteUseCase: GetFoodCategoriesRemoteUseCase,
     private val getFoodsByCategoryRemoteUseCase: GetFoodsByCategoryRemoteUseCase,
     private val getFoodCategoriesLocalUseCase: GetFoodCategoriesLocalUseCase,
-    private val getFoodsByCategoryLocalUseCase: GetFoodsByCategoryLocalUseCase
+    private val getFoodsByCategoryLocalUseCase: GetFoodsByCategoryLocalUseCase,
+    private val bannerService: BannerService? = null
 ): ViewModelBase.Base(dispatchersList = dispatchersList) {
 
     private val foodCategories = MutableStateFlow<List<FoodCategoryItem>?>(null)
     private val foods = MutableStateFlow<List<FoodItem>?>(null)
     private val isException = MutableStateFlow<Exception?>(null)
     private val currentFoodCategory = MutableStateFlow<FoodCategoryItem?>(null)
+    private val banners = MutableStateFlow<List<Banner>>(emptyList())
 
     fun getFoodCategories(): StateFlow<List<FoodCategoryItem>?> = foodCategories
     fun getFoods(): StateFlow<List<FoodItem>?> = foods
     fun getCurrentFoodCategory(): StateFlow<FoodCategoryItem?> = currentFoodCategory
     fun getIsException(): StateFlow<Exception?> = isException
+    fun getBanners(): StateFlow<List<Banner>> = banners
 
     fun saveCurrentFoodCategory(category: FoodCategoryItem) {
         currentFoodCategory.value = category
     }
 
-    fun loadFoodsCategoriesAndFoods() {
+    fun loadPage() {
         asyncWork(
             prepareUI = {},
             doWork = {
+                bannerService?.let {
+                    banners.value = it.getBanners()
+                }
                 if (connectivityObserver.isAccessToNetwork()) {
                     loadFoodsCategoriesAndFoodsFromNetwork()
                 } else {
