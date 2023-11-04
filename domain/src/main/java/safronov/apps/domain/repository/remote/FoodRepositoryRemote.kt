@@ -6,7 +6,6 @@ import safronov.apps.domain.model.food_category.FoodCategoryItem
 
 interface FoodRepositoryRemote {
 
-    suspend fun getAllFoods(): Food
     suspend fun getFoodsByCategory(category: FoodCategoryItem): Food
 
 }
