@@ -118,6 +118,14 @@ class FragmentMenuViewModelTest {
         assertEquals(true, fakeFoodRepositoryLocalSaving.countOfRequest == 0)
     }
 
+    @Test
+    fun test_loadFoodsByFoodCategory() = runBlocking {
+        connectivityObserver.isNetworkAvailable = true
+        val localFoods = fakeFoodRepositoryLocalGetting.dataToReturn
+        fragmentMenuViewModel.loadFoodsByFoodCategory(FoodCategoryItem("adsf", "asdfa", "asdf", "asdf"))
+        assertEquals(true, localFoods == fragmentMenuViewModel.getFoods().first())
+    }
+
 }
 
 private class FakeFoodCategoryRepositoryLocalGetting: FoodCategoryRepositoryLocal.GettingFoodCategoryRepositoryLocal {
