@@ -9,4 +9,7 @@
     <string name="pizza">Пицца</string>
     <string name="lorem_ipsum">In publishing and graphic design, Lorem ipsum a typeface without relying on content.</string>
     <string name="default_price">от 345 р</string>
+    <string name="ok">Понятно</string>
+    <string name="error">Критическая ошибка</string>
+    <string name="error_description">Приносим свои извинения, во время выполнения программы произошла критическая ошибка, возможно, это связано с некорректно написанным кодом (очень маловероятно, так как его разработали настоящие профессионалы), но в любом случае вы можете перезагрузить страницу, возможно, это поможет :)</string>
 </resources>

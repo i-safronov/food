@@ -7,6 +7,7 @@ import safronov.apps.domain.use_case.local.category.GetFoodCategoriesLocalUseCas
 import safronov.apps.domain.use_case.local.food.GetFoodsByCategoryLocalUseCase
 import safronov.apps.domain.use_case.remote.category.GetFoodCategoriesRemoteUseCase
 import safronov.apps.domain.use_case.remote.food.GetFoodsByCategoryRemoteUseCase
+import safronov.apps.food.system_settings.ui.bottom_sheet.BottomSheet
 import safronov.apps.food.ui.base.coroutines.DispatchersList
 import safronov.apps.food.ui.fragment.main.main_content.menu.banner.BannerService
 import safronov.apps.food.ui.fragment.main.main_content.menu.view_model.FragmentMenuViewModelFactory
@@ -21,6 +22,11 @@ class AppModule(
     @Provides
     fun provideContext(): Context {
         return context
+    }
+
+    @Provides
+    fun provideBottomSheet(): BottomSheet {
+        return BottomSheet.Base()
     }
 
     @Provides
