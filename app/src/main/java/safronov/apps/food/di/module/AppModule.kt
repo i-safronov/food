@@ -10,6 +10,7 @@ import safronov.apps.domain.use_case.remote.food.GetFoodsByCategoryRemoteUseCase
 import safronov.apps.food.ui.base.coroutines.DispatchersList
 import safronov.apps.food.ui.fragment.main.main_content.menu.view_model.FragmentMenuViewModelFactory
 import safronov.apps.food.ui.system.network.ConnectivityObserver
+import safronov.apps.food.ui.system.network.NetworkConnectivityObserver
 
 @Module
 class AppModule(
@@ -19,6 +20,16 @@ class AppModule(
     @Provides
     fun provideContext(): Context {
         return context
+    }
+
+    @Provides
+    fun provideDispatchersList(): DispatchersList {
+        return DispatchersList.Base()
+    }
+
+    @Provides
+    fun provideConnectivityObserver(): ConnectivityObserver {
+        return NetworkConnectivityObserver(context = context)
     }
 
     @Provides

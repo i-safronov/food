@@ -1,5 +1,6 @@
 package safronov.apps.food.ui.fragment.main.main_content.menu.view_model
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -31,30 +32,27 @@ class FragmentMenuViewModel(
     private val isException = MutableStateFlow<Exception?>(null)
     private val currentFoodCategory = MutableStateFlow<FoodCategoryItem?>(null)
 
-    fun getFoodCategories(): StateFlow<List<FoodCategoryItem>?> {
-        return foodCategories
-    }
-
-    fun getFoods(): StateFlow<List<FoodItem>?> {
-        return foods
-    }
-
+    fun getFoodCategories(): StateFlow<List<FoodCategoryItem>?> = foodCategories
+    fun getFoods(): StateFlow<List<FoodItem>?> = foods
     fun getCurrentFoodCategory(): StateFlow<FoodCategoryItem?> = currentFoodCategory
     fun getIsException(): StateFlow<Exception?> = isException
+
+    fun saveCurrentFoodCategory(category: FoodCategoryItem) {
+        currentFoodCategory.value = category
+    }
+
 
     fun loadFoodsCategoriesAndFoods() {
         asyncWork(
             prepareUI = {},
             doWork = {
-                try {
-                    if (connectivityObserver.isAccessToNetwork()) {
-                        loadFoodsCategoriesAndFoodsFromNetwork()
-                    } else {
-                        loadFoodsCategoriesAndFoodsFromLocalDatabase()
-                    }
-                } catch (e: RuntimeException) {
+                if (connectivityObserver.isAccessToNetwork()) {
+                    loadFoodsCategoriesAndFoodsFromNetwork()
+                } else {
+                    loadFoodsCategoriesAndFoodsFromLocalDatabase()
                 }
             }, showUI = {  }, handleException = {
+                isException.value = it
             }
         )
     }

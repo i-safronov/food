@@ -14,4 +14,8 @@ class App: Application() {
         appComponent = DaggerAppComponent.builder().appModule(AppModule(context = this)).build()
     }
 
+    fun getAppComponent(): AppComponent? {
+        return appComponent
+    }
+
 }

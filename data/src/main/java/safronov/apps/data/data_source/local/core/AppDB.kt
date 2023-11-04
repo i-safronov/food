@@ -7,7 +7,7 @@ import safronov.apps.data.data_source.local.core.dao.food_category.FoodCategoryD
 import safronov.apps.data.data_source.local.model.FoodCategoryItemEntity
 import safronov.apps.data.data_source.local.model.FoodItemEntity
 
-@Database(entities = [FoodCategoryItemEntity::class, FoodItemEntity::class], version = 0)
+@Database(entities = [FoodCategoryItemEntity::class, FoodItemEntity::class], version = 1)
 abstract class AppDB: RoomDatabase() {
 
     abstract fun getFoodDao(): FoodDao

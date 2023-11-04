@@ -12,6 +12,8 @@ import safronov.apps.food.R
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
+//TODO унаследуйся от FragmentBase
+
 /**
  * A simple [Fragment] subclass.
  * Use the [FragmentMain.newInstance] factory method to

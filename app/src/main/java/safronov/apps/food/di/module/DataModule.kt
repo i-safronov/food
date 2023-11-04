@@ -74,6 +74,7 @@ class DataModule {
         return Retrofit.Builder()
             .client(okHttpClient)
             .addConverterFactory(convertorFactory)
+            .baseUrl(FoodCategoryService.BASE_URL)
             .build()
     }
 
