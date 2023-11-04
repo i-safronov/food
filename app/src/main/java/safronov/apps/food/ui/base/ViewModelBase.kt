@@ -17,7 +17,7 @@ interface ViewModelBase {
         handleException: (RuntimeException) -> Unit
     )
 
-    class Base(
+    open class Base(
         private val dispatchersList: DispatchersList
     ): ViewModel(), ViewModelBase {
         override fun <T: Any> asyncWork(

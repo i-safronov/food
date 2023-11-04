@@ -2,10 +2,14 @@ package safronov.apps.food.ui.fragment.main.main_content.menu.view_model
 
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import org.junit.Assert.*
 import org.junit.Before
+import org.junit.Test
 import safronov.apps.domain.exception.DomainException
 import safronov.apps.domain.model.food.Food
 import safronov.apps.domain.model.food.FoodItem
@@ -91,12 +95,33 @@ class FragmentMenuViewModelTest {
 
     }
 
+    @Test
+    fun test_loadFoodsCategoriesAndFoods_networkIsAvailableAndPrevDataIsEmpty() = runBlocking {
+        connectivityObserver.isNetworkAvailable = true
+        fakeFoodRepositoryLocalGetting.dataToReturn = emptyList()
+        fakeFoodCategoryRepositoryLocalGetting.dataToReturn = emptyList()
+        val remoteFoodCategories = fakeFoodCategoryRepositoryRemoteGetting.dataToReturn.categories
+        val remoteFoods = fakeFoodRepositoryRemoteGetting.dataToReturn.foodItems
+        fragmentMenuViewModel.loadFoodsCategoriesAndFoods()
+        val currentFoodCategories = fragmentMenuViewModel.getFoodCategories().first()
+        val currentFoods = fragmentMenuViewModel.getFoods().first()
+        var networkConnection: ConnectivityObserver.Status = fragmentMenuViewModel.getConnectivityStatus().first()
+
+        assertEquals(true, remoteFoodCategories == currentFoodCategories)
+        assertEquals(true, remoteFoods == currentFoods)
+
+        assertEquals(true, networkConnection == ConnectivityObserver.Status.Available)
+
+        assertEquals(true, fakeFoodCategoryRepositoryLocalSaving.countOfRequest == 1)
+        assertEquals(true, fakeFoodRepositoryLocalSaving.countOfRequest == 1)
+    }
+
 }
 
 private class FakeFoodCategoryRepositoryLocalGetting: FoodCategoryRepositoryLocal.GettingFoodCategoryRepositoryLocal {
 
     var isNeedToThrowException = false
-    val dataToReturn = listOf(
+    var dataToReturn = listOf(
         FoodCategoryItem(idCategory = "sdf", strCategory = "asdfa", strCategoryDescription = "s", strCategoryThumb = "asdfa")
     )
 
@@ -129,7 +154,7 @@ private class FakeFoodRepositoryLocalGetting: FoodRepositoryLocal.GettingFoodRep
 
     var isNeedToThrowException = false
     var categoryRequest: FoodCategoryItem? = null
-    val dataToReturn = listOf(
+    var dataToReturn = listOf(
         FoodItem(
             idMeal = "dfas", strMeal = "fasdf", strMealThumb = "fasdfa"
         )
