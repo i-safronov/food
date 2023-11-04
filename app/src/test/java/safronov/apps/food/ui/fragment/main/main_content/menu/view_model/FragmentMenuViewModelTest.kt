@@ -1,5 +1,9 @@
 package safronov.apps.food.ui.fragment.main.main_content.menu.view_model
 
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.test.TestCoroutineDispatcher
 import org.junit.Assert.*
 import org.junit.Before
 import safronov.apps.domain.exception.DomainException
@@ -17,6 +21,8 @@ import safronov.apps.domain.use_case.local.food.GetFoodsByCategoryLocalUseCase
 import safronov.apps.domain.use_case.local.food.SaveFoodsLocalUseCase
 import safronov.apps.domain.use_case.remote.category.GetFoodCategoriesRemoteUseCase
 import safronov.apps.domain.use_case.remote.food.GetFoodsByCategoryRemoteUseCase
+import safronov.apps.food.ui.base.coroutines.DispatchersList
+import safronov.apps.food.ui.system.network.ConnectivityObserver
 import java.lang.IllegalStateException
 
 /*
@@ -42,10 +48,15 @@ class FragmentMenuViewModelTest {
     private lateinit var getFoodCategoriesLocalUseCase: GetFoodCategoriesLocalUseCase
     private lateinit var getFoodsByCategoryLocalUseCase: GetFoodsByCategoryLocalUseCase
 
+    private lateinit var testDispatchersList: TestDispatchersList
+
     private lateinit var fragmentMenuViewModel: FragmentMenuViewModel
+    private lateinit var connectivityObserver: FakeConnectivityObserver
 
     @Before
     fun setUp() {
+        testDispatchersList = TestDispatchersList()
+        connectivityObserver = FakeConnectivityObserver()
         fakeFoodCategoryRepositoryLocalGetting = FakeFoodCategoryRepositoryLocalGetting()
         fakeFoodCategoryRepositoryLocalSaving = FakeFoodCategoryRepositoryLocalSaving()
         fakeFoodRepositoryLocalGetting = FakeFoodRepositoryLocalGetting()
@@ -68,6 +79,16 @@ class FragmentMenuViewModelTest {
         getFoodsByCategoryLocalUseCase = GetFoodsByCategoryLocalUseCase(
             fakeFoodRepositoryLocalGetting
         )
+
+        fragmentMenuViewModel = FragmentMenuViewModel(
+            dispatchersList = testDispatchersList,
+            connectivityObserver = connectivityObserver,
+            getFoodCategoriesRemoteUseCase = getFoodCategoriesRemoteUseCase,
+            getFoodsByCategoryRemoteUseCase = getFoodsByCategoryRemoteUseCase,
+            getFoodCategoriesLocalUseCase = getFoodCategoriesLocalUseCase,
+            getFoodsByCategoryLocalUseCase = getFoodsByCategoryLocalUseCase
+        )
+
     }
 
 }
@@ -180,4 +201,29 @@ private class FakeFoodRepositoryRemoteGetting: FoodRepositoryRemote {
         return dataToReturn
     }
 
+}
+
+private class TestDispatchersList(
+    private val testCoroutineDispatcher: TestCoroutineDispatcher = TestCoroutineDispatcher()
+): DispatchersList {
+    override fun io(): CoroutineDispatcher {
+        return testCoroutineDispatcher
+    }
+
+    override fun ui(): CoroutineDispatcher {
+        return testCoroutineDispatcher
+    }
+}
+
+private class FakeConnectivityObserver: ConnectivityObserver {
+    var isNetworkAvailable = false
+    override fun observe(): Flow<ConnectivityObserver.Status> {
+        return flow {
+            if (isNetworkAvailable) {
+                emit(ConnectivityObserver.Status.Available)
+            } else {
+                emit(ConnectivityObserver.Status.Lost)
+            }
+        }
+    }
 }
