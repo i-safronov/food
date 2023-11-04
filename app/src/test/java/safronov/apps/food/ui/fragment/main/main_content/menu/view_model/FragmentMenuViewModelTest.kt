@@ -1,6 +1,7 @@
 package safronov.apps.food.ui.fragment.main.main_content.menu.view_model
 
 import org.junit.Assert.*
+import org.junit.Before
 import safronov.apps.domain.exception.DomainException
 import safronov.apps.domain.model.food.Food
 import safronov.apps.domain.model.food.FoodItem
@@ -10,6 +11,12 @@ import safronov.apps.domain.repository.local.FoodCategoryRepositoryLocal
 import safronov.apps.domain.repository.local.FoodRepositoryLocal
 import safronov.apps.domain.repository.remote.FoodCategoryRepositoryRemote
 import safronov.apps.domain.repository.remote.FoodRepositoryRemote
+import safronov.apps.domain.use_case.local.category.GetFoodCategoriesLocalUseCase
+import safronov.apps.domain.use_case.local.category.SaveFoodCategoriesLocalUseCase
+import safronov.apps.domain.use_case.local.food.GetFoodsByCategoryLocalUseCase
+import safronov.apps.domain.use_case.local.food.SaveFoodsLocalUseCase
+import safronov.apps.domain.use_case.remote.category.GetFoodCategoriesRemoteUseCase
+import safronov.apps.domain.use_case.remote.food.GetFoodsByCategoryRemoteUseCase
 import java.lang.IllegalStateException
 
 /*
@@ -21,7 +28,49 @@ import java.lang.IllegalStateException
 * - get data from database(when network is unavailable) but when calling request, should get data from database 
 * */
 
-class FragmentMenuViewModelTest
+class FragmentMenuViewModelTest {
+
+    private lateinit var fakeFoodCategoryRepositoryLocalGetting: FakeFoodCategoryRepositoryLocalGetting
+    private lateinit var fakeFoodCategoryRepositoryLocalSaving: FakeFoodCategoryRepositoryLocalSaving
+    private lateinit var fakeFoodRepositoryLocalGetting: FakeFoodRepositoryLocalGetting
+    private lateinit var fakeFoodRepositoryLocalSaving: FakeFoodRepositoryLocalSaving
+    private lateinit var fakeFoodCategoryRepositoryRemoteGetting: FakeFoodCategoryRepositoryRemoteGetting
+    private lateinit var fakeFoodRepositoryRemoteGetting: FakeFoodRepositoryRemoteGetting
+
+    private lateinit var getFoodCategoriesRemoteUseCase: GetFoodCategoriesRemoteUseCase
+    private lateinit var getFoodsByCategoryRemoteUseCase: GetFoodsByCategoryRemoteUseCase
+    private lateinit var getFoodCategoriesLocalUseCase: GetFoodCategoriesLocalUseCase
+    private lateinit var getFoodsByCategoryLocalUseCase: GetFoodsByCategoryLocalUseCase
+
+    private lateinit var fragmentMenuViewModel: FragmentMenuViewModel
+
+    @Before
+    fun setUp() {
+        fakeFoodCategoryRepositoryLocalGetting = FakeFoodCategoryRepositoryLocalGetting()
+        fakeFoodCategoryRepositoryLocalSaving = FakeFoodCategoryRepositoryLocalSaving()
+        fakeFoodRepositoryLocalGetting = FakeFoodRepositoryLocalGetting()
+        fakeFoodRepositoryLocalSaving = FakeFoodRepositoryLocalSaving()
+        fakeFoodCategoryRepositoryRemoteGetting = FakeFoodCategoryRepositoryRemoteGetting()
+        fakeFoodRepositoryRemoteGetting = FakeFoodRepositoryRemoteGetting()
+
+        getFoodCategoriesRemoteUseCase = GetFoodCategoriesRemoteUseCase(
+            fakeFoodCategoryRepositoryRemoteGetting,
+            GetFoodCategoriesLocalUseCase(fakeFoodCategoryRepositoryLocalGetting),
+            SaveFoodCategoriesLocalUseCase(fakeFoodCategoryRepositoryLocalSaving)
+        )
+        getFoodsByCategoryRemoteUseCase = GetFoodsByCategoryRemoteUseCase(
+            fakeFoodRepositoryRemoteGetting, GetFoodsByCategoryLocalUseCase(fakeFoodRepositoryLocalGetting),
+            SaveFoodsLocalUseCase(fakeFoodRepositoryLocalSaving)
+        )
+        getFoodCategoriesLocalUseCase = GetFoodCategoriesLocalUseCase(
+            fakeFoodCategoryRepositoryLocalGetting
+        )
+        getFoodsByCategoryLocalUseCase = GetFoodsByCategoryLocalUseCase(
+            fakeFoodRepositoryLocalGetting
+        )
+    }
+
+}
 
 private class FakeFoodCategoryRepositoryLocalGetting: FoodCategoryRepositoryLocal.GettingFoodCategoryRepositoryLocal {
 
@@ -110,7 +159,7 @@ private class FakeFoodCategoryRepositoryRemoteGetting: FoodCategoryRepositoryRem
 
 }
 
-private class FakeFoodRepositoryRemote1: FoodRepositoryRemote {
+private class FakeFoodRepositoryRemoteGetting: FoodRepositoryRemote {
 
     var isNeedToThrowException = false
     var categoryRequest: FoodCategoryItem? = null
