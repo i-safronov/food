@@ -1,6 +1,5 @@
 package safronov.apps.data.data_source.local.core
 
-import android.database.sqlite.SQLiteDatabase
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import safronov.apps.data.data_source.local.core.dao.food.FoodDao
