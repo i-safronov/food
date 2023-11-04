@@ -98,6 +98,7 @@ class FragmentMenuViewModelTest {
     @Test
     fun test_loadFoodsCategoriesAndFoods_networkIsAvailableAndPrevDataIsEmpty() = runBlocking {
         connectivityObserver.isNetworkAvailable = true
+        fragmentMenuViewModel.observeNetworkConnection()
         fakeFoodRepositoryLocalGetting.dataToReturn = emptyList()
         fakeFoodCategoryRepositoryLocalGetting.dataToReturn = emptyList()
         val remoteFoodCategories = fakeFoodCategoryRepositoryRemoteGetting.dataToReturn.categories
@@ -105,11 +106,12 @@ class FragmentMenuViewModelTest {
         fragmentMenuViewModel.loadFoodsCategoriesAndFoods()
         val currentFoodCategories = fragmentMenuViewModel.getFoodCategories().first()
         val currentFoods = fragmentMenuViewModel.getFoods().first()
-        var networkConnection: ConnectivityObserver.Status = fragmentMenuViewModel.getConnectivityStatus().first()
+        var networkConnection: ConnectivityObserver.Status? = fragmentMenuViewModel.getConnectivityStatus().first()
 
         assertEquals(true, remoteFoodCategories == currentFoodCategories)
         assertEquals(true, remoteFoods == currentFoods)
 
+        println("N: ${networkConnection}")
         assertEquals(true, networkConnection == ConnectivityObserver.Status.Available)
 
         assertEquals(true, fakeFoodCategoryRepositoryLocalSaving.countOfRequest == 1)
@@ -241,7 +243,9 @@ private class TestDispatchersList(
 }
 
 private class FakeConnectivityObserver: ConnectivityObserver {
+
     var isNetworkAvailable = false
+
     override fun observe(): Flow<ConnectivityObserver.Status> {
         return flow {
             if (isNetworkAvailable) {
@@ -250,5 +254,9 @@ private class FakeConnectivityObserver: ConnectivityObserver {
                 emit(ConnectivityObserver.Status.Lost)
             }
         }
+    }
+
+    override fun isAccessToNetwork(): Boolean {
+        return isNetworkAvailable
     }
 }

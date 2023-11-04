@@ -49,9 +49,6 @@ dependencies {
     //Modules:
     implementation project(":domain")
 
-    //Picasso:
-    implementation 'com.squareup.picasso:picasso:2.8'
-
     //Navigation:
     def nav_version = "2.5.3"
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"

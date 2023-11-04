@@ -3,6 +3,7 @@ package safronov.apps.food.ui.base
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import safronov.apps.food.ui.base.coroutines.DispatchersList
@@ -15,7 +16,7 @@ interface ViewModelBase {
         doWork: suspend () -> T,
         showUI: (data: T) -> Unit,
         handleException: (RuntimeException) -> Unit
-    )
+    ): Job
 
     open class Base(
         private val dispatchersList: DispatchersList
@@ -25,16 +26,14 @@ interface ViewModelBase {
             doWork: suspend () -> T,
             showUI: (data: T) -> Unit,
             handleException: (RuntimeException) -> Unit
-        ) {
+        ): Job = viewModelScope.launch(dispatchersList.io()) {
             try {
-                viewModelScope.launch {
+                withContext(dispatchersList.ui()) {
                     prepareUI.invoke()
-                    withContext(dispatchersList.io()) {
-                        val result = doWork.invoke()
-                        withContext(dispatchersList.ui()) {
-                            showUI.invoke(result)
-                        }
-                    }
+                }
+                val result = doWork.invoke()
+                withContext(dispatchersList.ui()) {
+                    showUI.invoke(result)
                 }
             } catch (e: RuntimeException) {
                 handleException.invoke(e)
