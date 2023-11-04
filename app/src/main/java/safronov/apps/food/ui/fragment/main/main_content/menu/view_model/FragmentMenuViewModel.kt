@@ -1,11 +1,7 @@
 package safronov.apps.food.ui.fragment.main.main_content.menu.view_model
 
-import android.util.Log
-import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.launch
 import safronov.apps.domain.model.food.FoodItem
 import safronov.apps.domain.model.food_category.FoodCategoryItem
 import safronov.apps.domain.use_case.local.category.GetFoodCategoriesLocalUseCase
@@ -16,7 +12,6 @@ import safronov.apps.food.ui.base.ViewModelBase
 import safronov.apps.food.ui.base.coroutines.DispatchersList
 import safronov.apps.food.ui.system.network.ConnectivityObserver
 import java.lang.Exception
-import java.lang.RuntimeException
 
 class FragmentMenuViewModel(
     dispatchersList: DispatchersList,
@@ -40,7 +35,6 @@ class FragmentMenuViewModel(
     fun saveCurrentFoodCategory(category: FoodCategoryItem) {
         currentFoodCategory.value = category
     }
-
 
     fun loadFoodsCategoriesAndFoods() {
         asyncWork(
