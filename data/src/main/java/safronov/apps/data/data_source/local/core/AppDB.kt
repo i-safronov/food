@@ -13,4 +13,8 @@ abstract class AppDB: RoomDatabase() {
     abstract fun getFoodDao(): FoodDao
     abstract fun getFoodCategoryDao(): FoodCategoryDao
 
+    companion object {
+        const val APP_DB_NAME = "foodDB.db"
+    }
+
 }

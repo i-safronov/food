@@ -15,8 +15,8 @@ class GetFoodsByCategoryRemoteUseCase(
     /**
      *
      * [execute] is the method that makes a request to [FoodRepositoryRemote] after receiving the result,
-     * it calls the [GetFoodsByCategoryLocalUseCase] method to get the foods from the foodsbase,
-     * if the foodsbase stores products with exactly the same [category], then it simply returns
+     * it calls the [GetFoodsByCategoryLocalUseCase] method to get the foods from the database,
+     * if the database stores products with exactly the same [category], then it simply returns
      * the foods that it received and if there is no foods in the database then it saves the foods
      * using [SaveFoodsLocalUseCase] and returns the received foods
      *
