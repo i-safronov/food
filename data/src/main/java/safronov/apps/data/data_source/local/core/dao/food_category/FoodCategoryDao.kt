@@ -3,15 +3,15 @@ package safronov.apps.data.data_source.local.core.dao.food_category
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
-import safronov.apps.domain.model.food_category.FoodCategoryItem
+import safronov.apps.data.data_source.local.model.FoodCategoryItemEntity
 
 @Dao
 interface FoodCategoryDao {
 
     @Insert
-    fun saveFoodCategories(list: List<FoodCategoryItem>)
+    fun saveFoodCategories(list: List<FoodCategoryItemEntity>)
 
-    @Query("SELECT * FROM FoodItemEntityTableName.FoodCategoryItemEntityTableName")
-    fun getFoodCategories(): List<FoodCategoryItem>
+    @Query("SELECT * FROM FoodCategoryItemEntityTableName")
+    fun getFoodCategories(): List<FoodCategoryItemEntity>
 
 }

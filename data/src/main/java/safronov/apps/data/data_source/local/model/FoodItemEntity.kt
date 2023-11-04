@@ -9,7 +9,8 @@ import safronov.apps.domain.model.food.FoodItem
 data class FoodItemEntity(
     @PrimaryKey(autoGenerate = false) val idMeal: Long? = null,
     @ColumnInfo val strMeal: String?,
-    @ColumnInfo val strMealThumb: String?
+    @ColumnInfo val strMealThumb: String?,
+    @ColumnInfo val foodCategory: String?
 ) {
 
     companion object {
@@ -21,7 +22,8 @@ data class FoodItemEntity(
             return FoodItem(
                 idMeal = foodItem.idMeal.toString(),
                 strMeal = foodItem.strMeal,
-                strMealThumb = foodItem.strMealThumb
+                strMealThumb = foodItem.strMealThumb,
+                foodCategory = foodItem.foodCategory
             )
         }
 
@@ -31,7 +33,8 @@ data class FoodItemEntity(
             return FoodItemEntity(
                 idMeal = foodItem.idMeal?.toLong(),
                 strMeal = foodItem.strMeal,
-                strMealThumb = foodItem.strMealThumb
+                strMealThumb = foodItem.strMealThumb,
+                foodCategory = foodItem.foodCategory
             )
         }
 
