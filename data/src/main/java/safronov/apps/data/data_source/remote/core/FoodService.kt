@@ -13,7 +13,7 @@ interface FoodService {
     ): Call<Food>
 
     companion object {
-        const val LINK_TO_GET_FOODS_BY_CATEGORY = "https://www.themealdb.com/api/json/v1/1/filter.php?c"
+        private const val LINK_TO_GET_FOODS_BY_CATEGORY = "https://www.themealdb.com/api/json/v1/1/filter.php?c"
     }
 
 }
