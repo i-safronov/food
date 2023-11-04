@@ -101,12 +101,40 @@ class DataModule {
     }
 
     @Provides
+    fun provideGettingFoodCategoryRepositoryLocal(
+        mutable: FoodCategoryRepositoryLocal.MutableFoodCategoryRepositoryLocal
+    ): FoodCategoryRepositoryLocal.GettingFoodCategoryRepositoryLocal {
+        return mutable
+    }
+
+    @Provides
+    fun provideSavingFoodCategoryRepositoryLocal(
+        mutable: FoodCategoryRepositoryLocal.MutableFoodCategoryRepositoryLocal
+    ): FoodCategoryRepositoryLocal.SavingFoodCategoryRepositoryLocal {
+        return mutable
+    }
+
+    @Provides
     fun provideMutableFoodRepositoryLocal(
         foodDao: FoodDao
     ): FoodRepositoryLocal.MutableFoodRepositoryLocal {
         return FoodRepositoryLocalImpl(
             foodDao = foodDao
         )
+    }
+
+    @Provides
+    fun provideGettingFoodRepositoryLocal(
+        mutable: FoodRepositoryLocal.MutableFoodRepositoryLocal
+    ): FoodRepositoryLocal.GettingFoodRepositoryLocal {
+        return mutable
+    }
+
+    @Provides
+    fun provideSavingFoodRepositoryLocal(
+        mutable: FoodRepositoryLocal.MutableFoodRepositoryLocal
+    ): FoodRepositoryLocal.SavingFoodRepositoryLocal {
+        return mutable
     }
 
     @Provides
