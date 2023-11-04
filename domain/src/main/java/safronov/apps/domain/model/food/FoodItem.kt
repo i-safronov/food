@@ -4,5 +4,5 @@ data class FoodItem(
     val idMeal: String?,
     val strMeal: String?,
     val strMealThumb: String?,
-    val foodCategory: String? = null
+    var foodCategory: String? = null
 )
