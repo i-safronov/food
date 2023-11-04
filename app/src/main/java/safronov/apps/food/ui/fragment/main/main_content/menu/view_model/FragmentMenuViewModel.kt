@@ -1,5 +1,6 @@
 package safronov.apps.food.ui.fragment.main.main_content.menu.view_model
 
+import android.util.Log
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import safronov.apps.domain.model.food.FoodItem
@@ -50,11 +51,13 @@ class FragmentMenuViewModel(
                 }
                 if (connectivityObserver.isAccessToNetwork()) {
                     loadFoodsCategoriesAndFoodsFromNetwork()
+                    Log.d("sfrLog", "isNetwork: ${connectivityObserver.isAccessToNetwork()}, items: ${foods.value}")
                 } else {
                     loadFoodsCategoriesAndFoodsFromLocalDatabase()
                 }
             }, showUI = {  }, handleException = {
                 isException.value = it
+                Log.d("sfrLog", "exception: ${it.message}")
             }
         )
     }

@@ -7,4 +7,6 @@
     <string name="basket">Корзина</string>
     <string name="Moscow">Москва</string>
     <string name="pizza">Пицца</string>
+    <string name="lorem_ipsum">In publishing and graphic design, Lorem ipsum a typeface without relying on content.</string>
+    <string name="default_price">от 345 р</string>
 </resources>

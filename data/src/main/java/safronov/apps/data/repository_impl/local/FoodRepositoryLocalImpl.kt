@@ -18,7 +18,7 @@ class FoodRepositoryLocalImpl(
 
     override suspend fun getFoodsByCategory(category: FoodCategoryItem): List<FoodItem> {
         return FoodItemEntity.convertListOfFoodItemEntityToListOfFoodItem(
-            foodDao.getFoodsByCategory(category.idCategory.toString())
+            foodDao.getFoodsByCategory(category.strCategory.toString())
         )
     }
 

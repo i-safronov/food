@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import safronov.apps.food.ui.fragment.main.main_content.menu.banner.Banner
 import safronov.apps.food.databinding.RcvBannerItemBinding
 
-class RcvBanner: RecyclerView.Adapter<RcvBanner.BannerViewHolder>() {
+class RcvBanners: RecyclerView.Adapter<RcvBanners.BannerViewHolder>() {
 
     private var banners = listOf<Banner>()
 

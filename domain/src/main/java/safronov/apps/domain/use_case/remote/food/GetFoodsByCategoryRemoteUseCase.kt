@@ -12,26 +12,10 @@ class GetFoodsByCategoryRemoteUseCase(
     private val saveFoodsLocalUseCase: SaveFoodsLocalUseCase
 ) {
 
-    /**
-     *
-     * [execute] is the method that makes a request to [FoodRepositoryRemote] after receiving the result,
-     * it calls the [GetFoodsByCategoryLocalUseCase] method to get the foods from the database,
-     * if the database stores products with exactly the same [category], then it simply returns
-     * the foods that it received and if there is no foods in the database then it saves the foods
-     * using [SaveFoodsLocalUseCase] and returns the received foods
-     *
-     * Notes: if some foods are updated/added on the server and previous products with exactly
-     * the same [category] are already stored in the database, then the data will NOT be updated
-     * and the previous outdated data will remain in the database.
-     *
-     * */
     suspend fun execute(category: FoodCategoryItem): Food {
         val newFoods = foodRepositoryRemote.getFoodsByCategory(category)
         val currentFoods = getFoodsByCategoryLocalUseCase.execute(category)
         return if (currentFoods.isNotEmpty()) newFoods else {
-            newFoods.foodItems.forEach {
-                it.foodCategory = category.strCategory
-            }
             saveFoodsLocalUseCase.execute(newFoods.foodItems)
             newFoods
         }

@@ -1,6 +1,7 @@
 package safronov.apps.food.ui.fragment.main.main_content.menu
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,9 +14,10 @@ import safronov.apps.food.app.App
 import safronov.apps.food.databinding.FragmentMenuBinding
 import safronov.apps.food.ui.base.FragmentBase
 import safronov.apps.food.ui.base.coroutines.DispatchersList
-import safronov.apps.food.ui.fragment.main.main_content.menu.rcv.RcvBanner
+import safronov.apps.food.ui.fragment.main.main_content.menu.rcv.RcvBanners
 import safronov.apps.food.ui.fragment.main.main_content.menu.rcv.RcvFoodCategories
 import safronov.apps.food.ui.fragment.main.main_content.menu.rcv.RcvFoodCategoriesInt
+import safronov.apps.food.ui.fragment.main.main_content.menu.rcv.RcvFoods
 import safronov.apps.food.ui.fragment.main.main_content.menu.view_model.FragmentMenuViewModel
 import safronov.apps.food.ui.fragment.main.main_content.menu.view_model.FragmentMenuViewModelFactory
 import javax.inject.Inject
@@ -28,7 +30,8 @@ class FragmentMenu : FragmentBase(), RcvFoodCategoriesInt {
     private var _binding: FragmentMenuBinding? = null
     private val binding get() = _binding!!
     private val rcvFoodCategories = RcvFoodCategories(this)
-    private val rcvBanner = RcvBanner()
+    private val rcvBanners = RcvBanners()
+    private val rcvFoods = RcvFoods()
 
     @Inject
     lateinit var fragmentMenuViewModelFactory: FragmentMenuViewModelFactory
@@ -59,7 +62,9 @@ class FragmentMenu : FragmentBase(), RcvFoodCategoriesInt {
         binding.rcvCategories.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.rcvCategories.adapter = rcvFoodCategories
         binding.rcvBannerItems.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        binding.rcvBannerItems.adapter = rcvBanner
+        binding.rcvBannerItems.adapter = rcvBanners
+        binding.rcvMenuItems.layoutManager = LinearLayoutManager(requireContext())
+        binding.rcvMenuItems.adapter = rcvFoods
     }
 
     override fun uiCreated(view: View, savedInstanceState: Bundle?) {
@@ -67,8 +72,7 @@ class FragmentMenu : FragmentBase(), RcvFoodCategoriesInt {
         observeFoodCategories()
         observeCurrentFoodCategory()
         observeBanners()
-//        observeFoods()
-//        observeCurrentFoodCategory()
+        observeFoods()
     }
 
     private fun observeFoodCategories() = viewLifecycleOwner.lifecycleScope.launch(dispatchersList.ui()) {
@@ -87,7 +91,13 @@ class FragmentMenu : FragmentBase(), RcvFoodCategoriesInt {
 
     private fun observeBanners() = viewLifecycleOwner.lifecycleScope.launch(dispatchersList.ui()) {
         fragmentMenuViewModel?.getBanners()?.collect {
-            rcvBanner.submitList(it)
+            rcvBanners.submitList(it)
+        }
+    }
+
+    private fun observeFoods() = viewLifecycleOwner.lifecycleScope.launch(dispatchersList.ui()) {
+        fragmentMenuViewModel?.getFoods()?.collect {
+            rcvFoods.submitList(it ?: emptyList())
         }
     }
 
