@@ -106,16 +106,35 @@ class FragmentMenuViewModelTest {
         fragmentMenuViewModel.loadFoodsCategoriesAndFoods()
         val currentFoodCategories = fragmentMenuViewModel.getFoodCategories().first()
         val currentFoods = fragmentMenuViewModel.getFoods().first()
-        var networkConnection: ConnectivityObserver.Status? = fragmentMenuViewModel.getConnectivityStatus().first()
+        val networkConnection: ConnectivityObserver.Status? = fragmentMenuViewModel.getConnectivityStatus().first()
 
         assertEquals(true, remoteFoodCategories == currentFoodCategories)
         assertEquals(true, remoteFoods == currentFoods)
 
-        println("N: ${networkConnection}")
         assertEquals(true, networkConnection == ConnectivityObserver.Status.Available)
 
         assertEquals(true, fakeFoodCategoryRepositoryLocalSaving.countOfRequest == 1)
         assertEquals(true, fakeFoodRepositoryLocalSaving.countOfRequest == 1)
+    }
+
+    @Test
+    fun test_loadFoodsCategoriesAndFoods_networkIsUnavailableAndPrevDataIsNotEmpty() = runBlocking {
+        connectivityObserver.isNetworkAvailable = false
+        fragmentMenuViewModel.observeNetworkConnection()
+        val localFoodCategories = fakeFoodCategoryRepositoryLocalGetting.dataToReturn
+        val localFoods = fakeFoodRepositoryLocalGetting.dataToReturn
+        fragmentMenuViewModel.loadFoodsCategoriesAndFoods()
+        val currentFoodCategories = fragmentMenuViewModel.getFoodCategories().first()
+        val currentFoods = fragmentMenuViewModel.getFoods().first()
+        val networkConnection: ConnectivityObserver.Status? = fragmentMenuViewModel.getConnectivityStatus().first()
+
+        assertEquals(true, localFoodCategories == currentFoodCategories)
+        assertEquals(true, localFoods == currentFoods)
+
+        assertEquals(true, networkConnection == ConnectivityObserver.Status.Lost)
+
+        assertEquals(true, fakeFoodCategoryRepositoryLocalSaving.countOfRequest == 0)
+        assertEquals(true, fakeFoodRepositoryLocalSaving.countOfRequest == 0)
     }
 
 }

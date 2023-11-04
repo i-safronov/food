@@ -4,9 +4,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import safronov.apps.domain.model.food.FoodItem
 import safronov.apps.domain.model.food_category.FoodCategoryItem
 import safronov.apps.domain.use_case.local.category.GetFoodCategoriesLocalUseCase
