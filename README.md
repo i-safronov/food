@@ -21,9 +21,7 @@ food using a free API to display content in the application: https://www.themeal
   
 ### Pictures: 
 
-<img src="https://github.com/i-safronov/food/assets/122071062/eaf2d06a-dd60-4310-b679-45c3489a57f1" align="left" width="292"/>
-<img src="https://github.com/i-safronov/food/assets/122071062/6a036e3a-3cd9-4000-b933-1ffc986105d2" align="right" width="290"/>
-<img src="https://github.com/i-safronov/food/assets/122071062/ff0fd18c-8a8e-4fd7-826c-ae4122df082b" align="center" width="292"/>
+![Group 13](https://github.com/i-safronov/food/assets/122071062/43ba5787-056f-4fbd-b425-e77d688fd982)
 
 ### P.S: 
 I will be very glad if you send feedback about my work ❤️
