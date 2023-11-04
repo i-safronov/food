@@ -29,15 +29,6 @@ import safronov.apps.food.ui.base.coroutines.DispatchersList
 import safronov.apps.food.ui.system.network.ConnectivityObserver
 import java.lang.IllegalStateException
 
-/*
-* actions:
-* - get data from internet when network is available
-* - get data when network is unavailable(should get data from database)
-* - get data from internet when network is available but when calling request, network has been unavailable(should cancel job to get data from
-* internet and get data from database)
-* - get data from database(when network is unavailable) but when calling request, should get data from database 
-* */
-
 class FragmentMenuViewModelTest {
 
     private lateinit var fakeFoodCategoryRepositoryLocalGetting: FakeFoodCategoryRepositoryLocalGetting
@@ -98,7 +89,6 @@ class FragmentMenuViewModelTest {
     @Test
     fun test_loadFoodsCategoriesAndFoods_networkIsAvailableAndPrevDataIsEmpty() = runBlocking {
         connectivityObserver.isNetworkAvailable = true
-        fragmentMenuViewModel.observeNetworkConnection()
         fakeFoodRepositoryLocalGetting.dataToReturn = emptyList()
         fakeFoodCategoryRepositoryLocalGetting.dataToReturn = emptyList()
         val remoteFoodCategories = fakeFoodCategoryRepositoryRemoteGetting.dataToReturn.categories
@@ -106,12 +96,9 @@ class FragmentMenuViewModelTest {
         fragmentMenuViewModel.loadFoodsCategoriesAndFoods()
         val currentFoodCategories = fragmentMenuViewModel.getFoodCategories().first()
         val currentFoods = fragmentMenuViewModel.getFoods().first()
-        val networkConnection: ConnectivityObserver.Status? = fragmentMenuViewModel.getConnectivityStatus().first()
 
         assertEquals(true, remoteFoodCategories == currentFoodCategories)
         assertEquals(true, remoteFoods == currentFoods)
-
-        assertEquals(true, networkConnection == ConnectivityObserver.Status.Available)
 
         assertEquals(true, fakeFoodCategoryRepositoryLocalSaving.countOfRequest == 1)
         assertEquals(true, fakeFoodRepositoryLocalSaving.countOfRequest == 1)
@@ -120,18 +107,14 @@ class FragmentMenuViewModelTest {
     @Test
     fun test_loadFoodsCategoriesAndFoods_networkIsUnavailableAndPrevDataIsNotEmpty() = runBlocking {
         connectivityObserver.isNetworkAvailable = false
-        fragmentMenuViewModel.observeNetworkConnection()
         val localFoodCategories = fakeFoodCategoryRepositoryLocalGetting.dataToReturn
         val localFoods = fakeFoodRepositoryLocalGetting.dataToReturn
         fragmentMenuViewModel.loadFoodsCategoriesAndFoods()
         val currentFoodCategories = fragmentMenuViewModel.getFoodCategories().first()
         val currentFoods = fragmentMenuViewModel.getFoods().first()
-        val networkConnection: ConnectivityObserver.Status? = fragmentMenuViewModel.getConnectivityStatus().first()
 
         assertEquals(true, localFoodCategories == currentFoodCategories)
         assertEquals(true, localFoods == currentFoods)
-
-        assertEquals(true, networkConnection == ConnectivityObserver.Status.Lost)
 
         assertEquals(true, fakeFoodCategoryRepositoryLocalSaving.countOfRequest == 0)
         assertEquals(true, fakeFoodRepositoryLocalSaving.countOfRequest == 0)
@@ -218,6 +201,7 @@ private class FakeFoodCategoryRepositoryRemoteGetting: FoodCategoryRepositoryRem
         FoodCategoryItem(idCategory = "sdf", strCategory = "asdfa", strCategoryDescription = "s", strCategoryThumb = "asdfa")
     ))
     var isNeedToThrowException = false
+    var isNeedToLongRequest = false
 
     override suspend fun getFoodCategories(): FoodCategory {
         if (isNeedToThrowException) throw DomainException("some exception")
@@ -264,16 +248,6 @@ private class TestDispatchersList(
 private class FakeConnectivityObserver: ConnectivityObserver {
 
     var isNetworkAvailable = false
-
-    override fun observe(): Flow<ConnectivityObserver.Status> {
-        return flow {
-            if (isNetworkAvailable) {
-                emit(ConnectivityObserver.Status.Available)
-            } else {
-                emit(ConnectivityObserver.Status.Lost)
-            }
-        }
-    }
 
     override fun isAccessToNetwork(): Boolean {
         return isNetworkAvailable

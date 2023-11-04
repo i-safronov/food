@@ -25,9 +25,6 @@ class FragmentMenuViewModel(
     private val getFoodsByCategoryLocalUseCase: GetFoodsByCategoryLocalUseCase
 ): ViewModelBase.Base(dispatchersList = dispatchersList) {
 
-    //TODO напиши логику которая будет складывать все jobs от задач и при исчезновении/появлении интернет загружать либо с бд либо с сервера
-
-    private val connectivityStatus = MutableStateFlow<ConnectivityObserver.Status?>(null)
     private val foodCategories = MutableStateFlow<List<FoodCategoryItem>?>(null)
     private val foods = MutableStateFlow<List<FoodItem>?>(null)
     private val isException = MutableStateFlow<UiException?>(null)
@@ -44,10 +41,6 @@ class FragmentMenuViewModel(
         return foods
     }
 
-    fun getConnectivityStatus(): StateFlow<ConnectivityObserver.Status?> {
-        return connectivityStatus
-    }
-
     fun getCurrentFoodCategory(): StateFlow<FoodCategoryItem?> = currentFoodCategory
     fun getIsException(): StateFlow<UiException?> = isException
 
@@ -56,14 +49,11 @@ class FragmentMenuViewModel(
             prepareUI = {},
             doWork = {
                 if (connectivityObserver.isAccessToNetwork()) {
-                    println("Do in network")
-                    networkJobs.add(loadFoodsCategoriesAndFoodsFromNetwork())
+                    loadFoodsCategoriesAndFoodsFromNetwork()
                 } else {
-                    localJobs.add(loadFoodsCategoriesAndFoodsFromLocalDatabase())
+                    loadFoodsCategoriesAndFoodsFromLocalDatabase()
                 }
-            }, showUI = {
-
-            }, handleException = {
+            }, showUI = {  }, handleException = {
                 setExceptionToUi(it as UiException)
             }
         )
@@ -96,19 +86,6 @@ class FragmentMenuViewModel(
     private fun setExceptionToUi(uiException: UiException?) {
         isException.value = uiException
         isException.value = null
-    }
-
-    fun observeNetworkConnection() {
-        asyncWork(prepareUI = {}, doWork = {
-            connectivityObserver.observe().collect {
-                //TODO проверяй какое соединение и грузи даныне
-                connectivityStatus.value = it
-            }
-        }, showUI = {
-
-        }, handleException = {
-            setExceptionToUi(it as UiException)
-        })
     }
 
 }
