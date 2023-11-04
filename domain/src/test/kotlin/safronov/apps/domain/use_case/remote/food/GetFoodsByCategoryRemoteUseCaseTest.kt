@@ -84,10 +84,6 @@ private class FakeFoodRepositoryRemote1: FoodRepositoryRemote {
         )
     ))
 
-    override suspend fun getAllFoods(): Food {
-        throw IllegalStateException("don't use this method -_-")
-    }
-
     override suspend fun getFoodsByCategory(category: FoodCategoryItem): Food {
         if (isNeedToThrowException) throw DomainException("some exception")
         categoryRequest = category
