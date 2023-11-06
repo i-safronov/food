@@ -1,4 +1,4 @@
-<h1 align="center">food</h1>
+<h1 align="center">food(test task)</h1>
 <p align="center">  
 food app demonstrates Android development with Dagger, Coroutines, Flow, MVVM and TDD pattern
 
